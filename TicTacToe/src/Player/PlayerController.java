@@ -1,4 +1,5 @@
 package Player;
 
-public class PlayerController {
+public class PlayerController
+{
 }
