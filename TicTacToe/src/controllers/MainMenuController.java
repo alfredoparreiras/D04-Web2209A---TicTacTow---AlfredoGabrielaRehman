@@ -32,9 +32,9 @@ public class MainMenuController {
 
     private void onHostGameClicked(ActionEvent e){
         System.out.println("Host game clicked");
-    }
+    } //TODO
 
     private void onJoinGameClicked(ActionEvent e){
         System.out.println("Join game clicked");
-    }
+    } //TODO
 }
