@@ -1,94 +1,123 @@
 package Board;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Random;
+import Player.PlayerController;
+import Player.PlayerModel;
 
 public class BoardModel {
-    // Constants for the dimensions of the board
-    public static final int NUM_ROWS = 3;
-    public static final int NUM_COLS = 3;
-
-    // Constants for the different states that a cell can be in
-    public static final char X = 'X';
-    public static final char O = 'O';
-    public static final char BLANK = ' ';
-
-    // 2D array to represent the state of each cell on the board
-    private char[][] cells;
+    // dimensions of the grid
+    static ArrayList<String> grid ;
+    //
+    boolean playerXTurn;
+    boolean playerOTurn;
 
 
-    private char turn;
 
-    // Constructor to initialize the board to all blank cells
+
+    // Constructor to initialize the grid to all blank cells
     public BoardModel() {
-        cells = new char[NUM_ROWS][NUM_COLS];
-        for (char[] row : cells) {
-            Arrays.fill(row, BLANK);
+        grid = new ArrayList<String>();
+        for (int i = 0; i < 9; i++) {
+            grid.add(" ");
+        }
+        playerOTurn = false;
+        playerXTurn = false;
+    }
+
+    public void getTurn(){
+        firstPlayer();
+    }
+
+    public boolean firstPlayer(){
+        Random random = new Random();
+        int randomPlayerGenerator = random.nextInt(2) + 1;
+        //if randomPlayerGenerator == 1 then Player x turn
+        if (randomPlayerGenerator == 1){
+            return playerXTurn;
+        }
+        //if randomPlayerGenerator == 2 then Player O turn
+        else {
+            return playerOTurn;
         }
     }
-
-    // Method to set the state of a cell at a given row and column
-    public void setCell(int row, int col, char state) {
-        cells[row][col] = state;
+    public boolean makeMove(int index, String mark) {
+        if (index < 0 || index >= grid.size()) {
+            // Invalid index
+            return false;
+        }
+        if (!grid.get(index).isEmpty()) {
+            // Grid is already occupied
+            return false;
+        }
+        grid.set(index, mark);
+        return true;
     }
 
-    // Method to get the state of a cell at a given row and column
-    public char getCell(int row, int col) {
-        return cells[row][col];
-    }
-    public char getTurn() {
-        return turn;
-    }
-
-    // Method to check if the board is full (no more moves left)
-    public boolean isFull() {
-        for (char[] row : cells) {
-            for (char cell : row) {
-                if (cell == BLANK) {
-                    return false;
-                }
+    // Method to check if the grid is full (no more moves left)
+    public boolean checkDraw() {
+        for (String s : grid) {
+            if (s.isEmpty()) {
+                return false;
             }
         }
         return true;
     }
 
-    public int getRow(Object source) {
-        for (int row = 0; row < NUM_ROWS; row++) {
-            for (int col = 0; col < NUM_COLS; col++) {
-                if (buttons[row][col] == source) {
-                    return row;
-                }
-            }
-        }
-        return -1;
-    }
+
     
 
     // Method to check if the game has been won by either player
-    public char checkWin() {
+
+
+    public boolean checkWin() {
         // Check rows
-        for (char[] row : cells) {
-            if (row[0] != BLANK && row[0] == row[1] && row[1] == row[2]) {
-                return row[0];
+        for (int i = 0; i < 3; i++) {
+            if (grid.get(i * 3).equals(grid.get(i * 3 + 1)) && grid.get(i * 3).equals(grid.get(i * 3 + 2))) {
+                return true;
             }
         }
 
         // Check columns
-        for (int col = 0; col < NUM_COLS; col++) {
-            if (cells[0][col] != BLANK && cells[0][col] == cells[1][col] && cells[1][col] == cells[2][col]) {
-                return cells[0][col];
+        for (int i = 0; i < 3; i++) {
+            if (grid.get(i).equals(grid.get(i + 3)) && grid.get(i).equals(grid.get(i + 6))) {
+                return true;
             }
         }
 
         // Check diagonals
-        if (cells[0][0] != BLANK && cells[0][0] == cells[1][1] && cells[1][1] == cells[2][2]) {
-            return cells[0][0];
+        if (grid.get(0).equals(grid.get(4)) && grid.get(0).equals(grid.get(8))) {
+            return true;
         }
-        if (cells[0][2] != BLANK && cells[0][2] == cells[1][1] && cells[1][1] == cells[2][0]) {
-            return cells[0][2];
+        if (grid.get(2).equals(grid.get(4)) && grid.get(2).equals(grid.get(6))) {
+            return true;
         }
 
-        // No winner
-        return BLANK;
+        return false;
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 
 
