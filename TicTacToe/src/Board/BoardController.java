@@ -1,47 +1,72 @@
 package Board;
-import Board.BoardModel;
 
-
-import Player.PlayerModel;
 import views.GameView;
+import views.MainMenu;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-public class BoardController implements ActionListener {
+import java.util.ArrayList;
 
 
-    private BoardModel model;
-    private GameView view;
+public class BoardController {
+
+
+    private BoardModel boardModel;
+    private GameView gameView;
+    private MainMenu mainMenu;
 
 
     // Constructor to initialize the model and view
-    public BoardController(BoardModel model, GameView view) {
-        this.model = model;
-        this.view = view;
+    public BoardController(BoardModel boardModel, GameView gameView, MainMenu mainMenu) {
+        this.boardModel = boardModel;
+        this.gameView = gameView;
+        this.mainMenu = mainMenu;
+
+
+        gameView.addReturnButtonListener(this::onReturnButtonClicked);
+        gameView.addRestartPlayAgainButtonListener(this::onRestartPlayAgainButtonClicked);
+        gameView.getBoardButtonValue(this::onGetBoardButtonValueClicked);
+        gameView.setBoardButtonValue(this::onSetBoardButtonValueClicked);
+
+
+
+
 
     }
 
-    // Method to handle button clicks
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        // Get the row and column of the clicked button
-        //MOT WORKING
-        JButton button = (JButton) e.getSource();
-        int row = -1;
-        int col = -1;
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                if (button == view.getBoardButtonValue()) {
-                    row = i;
-                    col = j;
-                }
-            }
+
+
+    private void onReturnButtonClicked(ActionEvent actionEvent) throws ClassNotFoundException {
+
+            //TODO main menu
+
+
+        try {
+        boardModel.resetBoard();
+        } catch (Exception e) {
+            throw new IllegalArgumentException();
         }
+    }
 
-        // Set the cell to X or O based on the current turn
 
+
+    private void onRestartPlayAgainButtonClicked(ActionEvent actionEvent) {
+        try {
+            boardModel.resetBoard();
+        } catch (Exception e) {
+            throw new IllegalArgumentException();
+        }
+    }
+
+    private void onGetBoardButtonValueClicked(int gridNumber , ActionEvent actionEvent){
+        String gridValue = boardModel.getBoardValue(gridNumber);
+    }
+
+    private void onSetBoardButtonValueClicked(int gridNumber, String mark, ActionEvent actionEvent){
+        // Fill the grid ArrayList with the desired values
+        boardModel.makeMove(gridNumber, mark);
+        if (boardModel.checkWin()){
+            //TODO
+        }
     }
 }
 

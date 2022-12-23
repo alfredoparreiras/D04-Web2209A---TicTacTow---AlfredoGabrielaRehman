@@ -6,16 +6,18 @@ import Player.PlayerModel;
 
 public class BoardModel {
     // dimensions of the grid
-    static ArrayList<String> grid ;
+    private ArrayList<String> grid ;
     //
-    boolean playerXTurn;
-    boolean playerOTurn;
+    private boolean playerXTurn;
+    private boolean playerOTurn;
+
 
 
 
 
     // Constructor to initialize the grid to all blank cells
     public BoardModel() {
+
         grid = new ArrayList<String>();
         for (int i = 0; i < 9; i++) {
             grid.add(" ");
@@ -24,8 +26,18 @@ public class BoardModel {
         playerXTurn = false;
     }
 
+    public void resetBoard(){
+        BoardModel boardModel = new BoardModel();
+        this.grid = boardModel.grid;
+        this.playerXTurn = boardModel.playerXTurn;
+        this.playerOTurn = boardModel.playerOTurn;
+    }
+
     public void getTurn(){
         firstPlayer();
+    }
+    public String getBoardValue(int index) {
+        return grid.get(index);
     }
 
     public boolean firstPlayer(){
@@ -40,7 +52,9 @@ public class BoardModel {
             return playerOTurn;
         }
     }
-    public boolean makeMove(int index, String mark) {
+
+    //Check if you can enter X or O. Is it empty?
+    public boolean makeMove(int index, String symbol) {
         if (index < 0 || index >= grid.size()) {
             // Invalid index
             return false;
@@ -49,7 +63,7 @@ public class BoardModel {
             // Grid is already occupied
             return false;
         }
-        grid.set(index, mark);
+        grid.set(index, symbol);
         return true;
     }
 
@@ -67,8 +81,6 @@ public class BoardModel {
     
 
     // Method to check if the game has been won by either player
-
-
     public boolean checkWin() {
         // Check rows
         for (int i = 0; i < 3; i++) {
@@ -97,26 +109,18 @@ public class BoardModel {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    // return a string representation of the grid
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < 9; i++) {
+            sb.append(grid.get(i));
+            if (i % 3 == 2) {
+                sb.append("\n");
+            }
+        }
+        return sb.toString();
+    }
 
 }
 
