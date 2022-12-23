@@ -1,11 +1,14 @@
-import controllers.MainMenuController;
+import Board.controller.BoardController;
+import Board.model.BoardModel;
+import Board.view.BoardPanel;
+import Menu.controller.MainMenuController;
+import Player.models.PlayerModel;
+import utility.swing.style.Formatting;
 import utility.swing.windows.Window;
-import views.GameView;
-import views.MainMenu;
+import Board.view.GameView;
+import Menu.views.MainMenu;
 
 import javax.swing.*;
-import javax.swing.plaf.ColorUIResource;
-import java.awt.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -15,10 +18,12 @@ public class Main {
 
     private static void start()
     {
-        configureLookAndFeel();
+        Formatting.configureLookAndFeel();
 
         // Create model
-        //Student student = new Student("Anna", "Brown", LocalDate.of(2000, 1, 1));
+        PlayerModel playerX = new PlayerModel("X");
+        PlayerModel playerO = new PlayerModel("O");
+        BoardModel board = new BoardModel(playerX,playerO);
 
         // Create view
         MainMenu menuView = new MainMenu();
@@ -28,30 +33,11 @@ public class Main {
         utility.swing.windows.Window window = new Window("TIC TAC TOE", menuView, true); // Create window and set content pane
 
         // Create controller
-        //StudentController controller = new StudentController(student, view);
-        MainMenuController mainMenuController = new MainMenuController(menuView,gameView,window);
+        MainMenuController mainMenuController = new MainMenuController(menuView,gameView,window,board);
+        //TODO
+        //Pass model of game and view to the board controler
+        BoardController boardController = new BoardController(board,gameView,menuView);
 
         window.setVisible(true); // Display window
-    }
-    private static void configureLookAndFeel()
-    {
-        useSystemLookAndFeel();
-
-        Color backgroundColor = Color.white;
-        ColorUIResource backgroundColorResource = new ColorUIResource(backgroundColor);
-        UIManager.put("Panel.background", backgroundColorResource);
-        UIManager.put("OptionPane.background", backgroundColorResource);
-    }
-
-    private static void useSystemLookAndFeel()
-    {
-        try
-        {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        }
-        catch (UnsupportedLookAndFeelException | ClassNotFoundException | InstantiationException | IllegalAccessException e)
-        {
-            e.printStackTrace();
-        }
     }
 }

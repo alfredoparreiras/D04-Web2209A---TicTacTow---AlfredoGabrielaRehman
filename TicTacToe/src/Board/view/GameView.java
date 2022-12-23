@@ -1,4 +1,4 @@
-package views;
+package Board.view;
 
 import utility.swing.layout.LayoutHelper;
 
@@ -9,17 +9,13 @@ import java.awt.event.ActionListener;
 public class GameView extends JPanel {
     private final JLabel title;
     private final JButton goBackButton;
-
     private final JLabel messageLabel;
-
     private final BoardPanel board;
     private final JLabel playerXLabel;
     private final JLabel playerOLabel;
     private final JLabel playerXScore;
     private final JLabel playerOScore;
-
     private final JPanel scorePanel;
-
     private final JButton resetPlayAgainButton;
 
 
@@ -104,5 +100,10 @@ public class GameView extends JPanel {
     public void displayMessage(String message)
     {
         messageLabel.setText(message);
+    }
+
+    public void cleanBoard()
+    {
+        board.cleanBoard();
     }
 }

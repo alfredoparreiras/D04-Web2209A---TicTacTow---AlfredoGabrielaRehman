@@ -1,10 +1,11 @@
-package controllers;
+package Menu.controller;
 
+import Board.model.BoardModel;
 import sockets.client.Client;
 import sockets.server.Server;
 import utility.swing.windows.Window;
-import views.GameView;
-import views.MainMenu;
+import Board.view.GameView;
+import Menu.views.MainMenu;
 
 import java.awt.event.ActionEvent;
 import java.util.Objects;
@@ -13,24 +14,32 @@ public class MainMenuController {
 
     private final MainMenu view;
     private final GameView gameView;
-
     private final Window buttonsWindow;
 
-    public MainMenuController(MainMenu view, GameView gameView, Window buttonsWindow){
+    private final BoardModel board;
+
+    private Window boardWindow;
+
+    public MainMenuController(MainMenu view, GameView gameView, Window buttonsWindow,BoardModel board){
         this.view= Objects.requireNonNull(view);
         this.gameView = Objects.requireNonNull(gameView);
         this.buttonsWindow = Objects.requireNonNull(buttonsWindow);
         view.addLocalGameListener(e->onLocalGameClicked(e));
         view.addHostGameListener(e->onHostGameClicked(e));
         view.addJoinGameListener(e->onJoinGameClicked(e));
+        this.board=board;
     }
 
     private void showBoard(){
         //TODO
         // Create window and set content pane
-        Window window = new Window("Board", gameView, true);
-        window.setVisible(true); // Display window
+        boardWindow= new Window("Board", gameView, true);
+        boardWindow.setVisible(true); // Display window
         buttonsWindow.setVisible(false);
+    }
+
+    private void hideWindow(){
+        boardWindow.setVisible(false);
     }
 
     private void onLocalGameClicked(ActionEvent e){
