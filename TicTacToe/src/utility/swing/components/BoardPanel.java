@@ -1,4 +1,4 @@
-package Board.view;
+package utility.swing.components;
 
 import javax.swing.*;
 import java.awt.*;
@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class BoardPanel extends JPanel {
     private final ArrayList<JButton> buttons;
 
-    BoardPanel(){
+    public BoardPanel(){
         buttons = new ArrayList<>();
         setLayout(new GridLayout(3,3));
 

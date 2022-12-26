@@ -23,7 +23,7 @@ public class PlayerModel {
         return isWinner;
     }
 
-    public char getMark()
+    public String getMark()
     {
         return mark;
     }
@@ -33,7 +33,7 @@ public class PlayerModel {
     }
     // Setters
 
-    public void setMark(char mark){
+    public void setMark(String mark){
         this.mark = mark;
     }
     public void setScore(){

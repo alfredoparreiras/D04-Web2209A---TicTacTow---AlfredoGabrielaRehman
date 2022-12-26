@@ -1,5 +1,6 @@
-package Board.view;
+package Game.view;
 
+import utility.swing.components.BoardPanel;
 import utility.swing.layout.LayoutHelper;
 
 import javax.swing.*;

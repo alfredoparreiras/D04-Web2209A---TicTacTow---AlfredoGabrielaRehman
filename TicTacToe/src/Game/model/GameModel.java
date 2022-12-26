@@ -1,42 +1,34 @@
-package Board.model;
+package Game.model;
 import java.util.ArrayList;
 import java.util.Random;
 
-import Board.controller.BoardController;
-import Player.PlayerController;
-import Player.PlayerModel;
 import Player.models.PlayerModel;
 
-public class BoardModel {
+public class GameModel {
     // dimensions of the grid
     private ArrayList<String> grid ;
-    private PlayerModel playerX;
-    private PlayerModel playerO;
-    private final BoardController boardController;
+    private PlayerModel player1;
+    private PlayerModel player2;
+
 
     // Constructor to initialize the grid to all blank cells
-    public BoardModel(PlayerModel playerX, PlayerModel playerO, BoardController boardController) {
+    public GameModel(PlayerModel player1, PlayerModel player2) {
 
         grid = new ArrayList<String>();
         for (int i = 0; i < 9; i++) {
             grid.add(" ");
         }
-        this.playerX = playerX;
-        this.playerO = playerO;
-        this.boardController = boardController;
+        this.player1 = player1;
+        this.player2 = player2;
+
+        firstPlayer();
 
     }
 
-    public void resetBoard(){
-
-        boardController.cleanBoard();
-    }
-
-    public void resetBoardAndPlayers()
+    public void resetPlayers()
     {
-        boardController.cleanBoard();
-        playerX.resetPlayerState();
-        playerO.resetPlayerState();
+        player1.resetPlayerState();
+        player2.resetPlayerState();
     }
 
     public void getTurn(){
@@ -51,27 +43,35 @@ public class BoardModel {
         Random random = new Random();
         int randomPlayerGenerator = random.nextInt(2) + 1;
         //if randomPlayerGenerator == 1 then Player 1 will start.
-        if (randomPlayerGenerator == 1)
+        if (randomPlayerGenerator == 1) {
             player1.setFirst(true);
-
+            player1.setTurn(true);
+        }
         //if randomPlayerGenerator == 2 then Player 2 will start.
-        else
+        else {
             player2.setFirst(true);
-
+            player2.setTurn(true);
+        }
     }
 
     //Check if you can enter X or O. Is it empty?
-    public boolean makeMove(int index, String symbol) {
+    public void makeMove(int index) {
+        String symbol;
         if (index < 0 || index >= grid.size()) {
             // Invalid index
-            return false;
+            return;
         }
         if (!grid.get(index).isEmpty()) {
             // Grid is already occupied
-            return false;
+            return;
+        }
+        if(player1.isTurn()){
+            symbol = player1.getMark();
+        }
+        else{
+            symbol = player2.getMark();
         }
         grid.set(index, symbol);
-        return true;
     }
 
     // Method to check if the grid is full (no more moves left)
@@ -127,6 +127,30 @@ public class BoardModel {
             }
         }
         return sb.toString();
+    }
+
+    public String whoStart()
+    {
+        if(player1.isFirst())
+            return "Player " + player1.getMark();
+        else
+            return "Player " + player2.getMark();
+
+    }
+
+    public void setMarkPlayers()
+    {
+
+        Random random = new Random();
+        int randomPlayerGenerator = random.nextInt(2) + 1;
+        if (randomPlayerGenerator == 1) {
+            player1.setMark("X");
+            player2.setMark("O");
+        }
+        else {
+            player2.setMark("X");
+            player1.setMark("O");
+        }
     }
 
 }

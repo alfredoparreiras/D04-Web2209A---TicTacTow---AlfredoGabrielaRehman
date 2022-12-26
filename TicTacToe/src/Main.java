@@ -1,11 +1,10 @@
-import Board.controller.BoardController;
-import Board.model.BoardModel;
-import Board.view.BoardPanel;
+import Game.controller.GameController;
+import Game.model.GameModel;
 import Menu.controller.MainMenuController;
 import Player.models.PlayerModel;
 import utility.swing.style.Formatting;
 import utility.swing.windows.Window;
-import Board.view.GameView;
+import Game.view.GameView;
 import Menu.views.MainMenu;
 
 import javax.swing.*;
@@ -21,23 +20,23 @@ public class Main {
         Formatting.configureLookAndFeel();
 
         // Create model
-        PlayerModel playerX = new PlayerModel("X");
-        PlayerModel playerO = new PlayerModel("O");
-        BoardModel board = new BoardModel(playerX,playerO);
+        PlayerModel player1 = new PlayerModel("X");
+        PlayerModel player2 = new PlayerModel("O");
+        GameModel board = new GameModel(player1,player2);
 
         // Create view
         MainMenu menuView = new MainMenu();
         GameView gameView = new GameView();
 
         // Create window to display view as content pane
-        utility.swing.windows.Window window = new Window("TIC TAC TOE", menuView, true); // Create window and set content pane
+        Window menuWindow = new Window("TIC TAC TOE", menuView, true); // Create window and set content pane
 
         // Create controller
-        MainMenuController mainMenuController = new MainMenuController(menuView,gameView,window,board);
+        MainMenuController mainMenuController = new MainMenuController(menuView,gameView,menuWindow,board);
         //TODO
         //Pass model of game and view to the board controler
-        BoardController boardController = new BoardController(board,gameView,menuView);
+        GameController boardController = new GameController(board,gameView,menuView,mainMenuController);
 
-        window.setVisible(true); // Display window
+        menuWindow.setVisible(true); // Display window
     }
 }
